@@ -1,0 +1,20 @@
+{
+  "auth": "zef:ohmycloudy",
+  "authors": ["ohmycloudy"],
+  "build-depends": [],
+  "depends": [],
+  "description": "Parser implementation of recipe-lang",
+  "license": "Artistic-2.0",
+  "name": "Recipe::Parser",
+  "perl": "6.d",
+  "provides": {
+    "Recipe::Grammar": "lib/Recipe/Grammar.rakumod",
+    "Recipe::Actions": "lib/Recipe/Actions.rakumod",
+    "Recipe::Token": "lib/Recipe/Token.rakumod"
+  },
+  "resources": [],
+  "source-url": "",
+  "tags": [],
+  "test-depends": [],
+  "version": "0.0.1"
+}

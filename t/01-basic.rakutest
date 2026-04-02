@@ -1,0 +1,6 @@
+use Test;
+use Recipe::Grammar;
+
+pass "replace me";
+
+done-testing;
