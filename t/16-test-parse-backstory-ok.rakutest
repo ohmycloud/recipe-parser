@@ -1,0 +1,21 @@
+use lib '../lib';
+
+plan 5;
+
+use Test;
+use Recipe::Grammar;
+
+my @cases = (
+    ("\n---\nwhat a backstory", "what a backstory"),
+    ("\n   ---\nwhat a backstory", "what a backstory"),
+    ("\n   ---\n\nwhat a backstory", "what a backstory"),
+    ("\n   ---\n\nthis is **markdown**", "this is **markdown**"),
+    ("\n   ---\n\nthis is [markdown](url)", "this is [markdown](url)")
+);
+
+for @cases -> ($input, $expected) {
+    my $m = Recipe::Grammar.parse($input, rule => 'backstory');
+    is ~$m<rest>.trim, $expected, "backstory('$input')";
+}
+
+done-testing;
