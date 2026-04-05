@@ -1,0 +1,15 @@
+use lib '../lib';
+
+plan 3;
+
+use Test;
+use Recipe::Grammar;
+
+my @cases = ['{}', '{unclosed', 'unclosed}'];
+
+for @cases -> $input {
+    my $m = Recipe::Grammar.parse($input, rule => 'curly');
+    nok $m, "curly('$input')";
+}
+
+done-testing;

@@ -1,0 +1,28 @@
+use lib '../lib';
+
+plan 12;
+
+use Test;
+use Recipe::Grammar;
+
+my @cases = (
+    ("salt",          "salt"),
+    ("sweet potato",  "sweet potato"),
+    ("ToMaToeS",      "ToMaToeS"),
+    ("1/2 lemon",     "1/2 lemon"),
+    ("my-best-sauce", "my-best-sauce"),
+    ("1.2",           "1.2"),
+    ("1,2",           "1,2"),
+    ("1_200",         "1_200"),
+    ('@woile',        '@woile'),
+    ("10%",           "10%"),
+    ("#vegan",        "#vegan"),
+    ("mango's",       "mango's"),
+);
+
+for @cases -> ($input, $expected) {
+    my $m = Recipe::Grammar.parse($input, rule => 'valid-string');
+    is ~$m, $expected, "valid-string('$input')";
+}
+
+done-testing;

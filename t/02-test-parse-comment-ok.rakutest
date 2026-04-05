@@ -1,0 +1,19 @@
+use lib '../lib';
+
+plan 3;
+
+use Test;
+use Recipe::Grammar;
+
+my @cases = (
+    ("/* */", ""),
+    ("/* hello */", "hello"),
+    ("/* multi\nline\ncomment */", "multi\nline\ncomment")
+);
+
+for @cases -> ($input, $expected) {
+    my $m = Recipe::Grammar.parse($input, rule => 'comment');
+    is ~$m<body>.trim, $expected, "comment('$input')";
+}
+
+done-testing;

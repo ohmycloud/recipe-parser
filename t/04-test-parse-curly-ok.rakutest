@@ -1,0 +1,21 @@
+use lib '../lib';
+
+plan 5;
+
+use Test;
+use Recipe::Grammar;
+
+my @cases = (
+    ('{salt}', 'salt'),
+    ('{black pepper}', 'black pepper'),
+    ('{smashed potatoes}', 'smashed potatoes'),
+    ('{15 minutes}', '15 minutes'),
+    ('{   15 minutes  }', '15 minutes')
+);
+
+for @cases -> ($input, $expected) {
+    my $m = Recipe::Grammar.parse($input, rule => 'curly');
+    is ~$m<valid-string>.trim, $expected, "curly('$input')";
+}
+
+done-testing;
