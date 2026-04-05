@@ -1,0 +1,23 @@
+use lib '../lib';
+
+plan 7;
+
+use Test;
+use Recipe::Grammar;
+
+my @cases = (
+    (">> tags: vegan\n", ("tags", "vegan")),
+    (">> key: pepe\n", ("key", "pepe")),
+    (">>key: pepe\n", ("key", "pepe")),
+    (">>    key: pepe\n", ("key", "pepe")),
+    (">>    key:     pepe\n", ("key", "pepe")),
+    (">>    key:\t\tpepe\n", ("key", "pepe")),
+    (">>    key:pepe\n", ("key", "pepe"))
+);
+
+for @cases -> ($input, $expected) {
+    my $m = Recipe::Grammar.parse($input, rule => 'metadata');
+    is (~$m<key>.trim, ~$m<value>.trim), $expected, "metadata('$input')";
+}
+
+done-testing;
