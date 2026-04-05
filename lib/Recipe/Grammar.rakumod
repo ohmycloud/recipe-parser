@@ -1,5 +1,5 @@
-use Grammar::Debugger;
-use Grammar::Tracer;
+#use Grammar::Debugger;
+#use Grammar::Tracer;
 
 unit grammar Recipe::Grammar;
 
@@ -14,9 +14,10 @@ token valid-string {
 #
 # ```recp
 # /* */
+# /* hello */
 # ```
 token comment {
-    '/*' $<body>=([\s\S]*?) '*/' \h*
+    '/*' $<body>=( [ <!before '*/'> . ]* ) '*/' \h*
 }
 
 # Parse curly braces delimited utf-8
@@ -40,7 +41,7 @@ token curly {
 # 2/3
 # ```
 token quantity {
-    \d+ % <[.,/_]>
+    (\d+)+ % <[.,/_]>
 }
 
 # match units like kg, kilograms, pinch, etc.
@@ -53,32 +54,71 @@ token ingredient-amount {
     '(' \h* <quantity>? \h* <unit>? \h* ')'
 }
 
+# Ingredients come in these formats:
+#
+# ```recp
+# {quinoa}(200gr)
+# {tomatoes}(2)
+# {sweet potatoes}(2)
+# ```
 token ingredient {
     <curly> <ingredient-amount>?
 }
 
+# Materials format:
+#
+# ```recp
+# &{pot}
+# &{small jar}
+# &{stick}
+# ```
 token material {
     '&' <curly>
 }
 
+# Timer format:
+#
+# ```recp
+# t{25 minutes}
+# t{10 sec}
+# ```
 token timer {
     't' <curly>
 }
 
+# Parse a reference to another recipe
+#
+# ```recp
+# @{woile/special-tomato-sauce}
+# @{woile/special-tomato-sauce}(100 ml)
+# ```
 token recipe-ref {
     '@' <curly> <ingredient-amount>?
 }
 
+# Tokens are separated into words
+token word {
+    \S+
+}
+
+# Metadata format:
+# ```recp
+# >> name: hummus classic
+# >> tags: vegan, high-protein, high-fiber
+# >> lang: en
+# ```
 token metadata {
     '>>' \h* $<key>=(<-[:\n]>+) ':' \h* $<value>=(\N*)
 }
 
+# The backstory is separated by `---`, and it consumes till the end
+# ```recp
+# my recipe bla with {ingredient1}
+# ---
+# This recipe was given by my grandma
+# ```
 token backstory {
-    \n \s* '---' \n \s* $<reset>=([\s\S]*)
-}
-
-token word {
-    \S+
+    \n \s* '---' \n \s* $<rest>=(.*)
 }
 
 token recipe-value {

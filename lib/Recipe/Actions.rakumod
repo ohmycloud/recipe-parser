@@ -28,7 +28,7 @@ method metadata($/) {
 method material($/)  { make Material.new(value => ~$<curly><valid-string>.trim) }
 method timer($/)     { make Timer.new(value => ~$<curly><valid-string>.trim) }
 method comment($/)   { make Comment.new(value => ~$<body>.trim) }
-method backstory($/) { make Backstory.new(value => ~$<reset>) }
+method backstory($/) { make Backstory.new(value => ~$<rest>) }
 
 method !make-ingredient($class, $/) {
     my $name = ~$<curly><valid-string>.trim;
