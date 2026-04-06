@@ -1,6 +1,5 @@
 #!/usr/bin/env raku
 
-use lib '../lib';
 use Recipe::Grammar;
 use Terminal::ANSIColor;
 use Recipe::Token;

@@ -1,4 +1,3 @@
-use lib '../lib';
 use Recipe::Grammar;
 use Recipe::Actions;
 

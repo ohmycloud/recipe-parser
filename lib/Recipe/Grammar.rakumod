@@ -1,6 +1,3 @@
-#use Grammar::Debugger;
-#use Grammar::Tracer;
-
 unit grammar Recipe::Grammar;
 
 use Recipe::Token;
@@ -159,7 +156,7 @@ sub MAIN(:$input) {
 
 =head1 DESCRIPTION
 
-Recipe::Grammar is ...
+Recipe::Grammar a parser implementation of recipe-lang.
 
 =head1 AUTHOR
 
