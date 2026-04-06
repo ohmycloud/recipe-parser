@@ -1,0 +1,15 @@
+use lib '../lib';
+
+plan 2;
+
+use Test;
+use Recipe::Grammar;
+
+my @cases = ("\n---\n", "\n ---\nwhat a backstory");
+
+for @cases -> $input {
+    my $m = Recipe::Grammar.parse($input, rule => 'backstory');
+    nok $m, "backstory('$input')";
+}
+
+done-testing;
