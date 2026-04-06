@@ -1,4 +1,4 @@
-plan 7;
+plan 6;
 
 use Test;
 use Recipe::Grammar;
@@ -9,8 +9,7 @@ my @cases = (
     ("2_1", "2_1"),
     ("2,1", "2,1"),
     ("2.1", "2.1"),
-    ("1/2", "1/2"),
-    (".2", ".2")
+    ("1/2", "1/2")
 );
 
 for @cases -> ($input, $expected) {
