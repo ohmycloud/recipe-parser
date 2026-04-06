@@ -1,0 +1,15 @@
+use lib '../lib';
+
+plan 4;
+
+use Test;
+use Recipe::Grammar;
+
+my @cases = ["2.", "2..0", "2,,0", "2//0"];
+
+for @cases -> $input {
+    my $m = Recipe::Grammar.parse($input, rule => 'quantity');
+    nok $m, "quantity('$input')";
+}
+
+done-testing;
