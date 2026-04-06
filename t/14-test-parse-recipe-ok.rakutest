@@ -1,0 +1,24 @@
+use lib '../lib';
+
+plan 3;
+
+use Test;
+use Recipe::Grammar;
+
+my @cases = (
+    ('@{woile/tomato-sauce}(200gr)', ('woile/tomato-sauce', ('200' ,'gr'))),
+    ('@{woile/tomato-sauce}', ('woile/tomato-sauce', (Any, Any))),
+    ('@{special stew}', ('special stew', (Any, Any)))
+);
+
+for @cases -> ($input, $expected) {
+    my $m = Recipe::Grammar.parse($input, rule => 'recipe-ref');
+    my $quantity = $m<ingredient-amount><quantity>;
+    my $unit = $m<ingredient-amount><unit>;
+    $quantity = $quantity.defined ?? ~$quantity !! Any;
+    $unit = $unit.defined ?? ~$unit !! Any;
+
+    is-deeply (~$m<curly><valid-string>.trim, ($quantity, $unit)), $expected, "recipe-ref('$input')";
+}
+
+done-testing;

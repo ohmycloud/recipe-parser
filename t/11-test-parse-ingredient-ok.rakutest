@@ -14,9 +14,10 @@ my @cases = (
 for @cases -> ($input, $expected) {
     my $m = Recipe::Grammar.parse($input, rule => 'ingredient');
     my $quantity = $m<ingredient-amount><quantity>;
-    $quantity = $quantity.defined ?? ~$quantity !! Any;
     my $unit = $m<ingredient-amount><unit>;
+    $quantity = $quantity.defined ?? ~$quantity !! Any;
     $unit = $unit.defined ?? ~$unit !! Any;
+
     is-deeply (~$m<curly><valid-string>.trim, $quantity, $unit), $expected, "ingredient('$input')";
 }
 
