@@ -1,0 +1,19 @@
+use lib '../lib';
+
+plan 2;
+
+use Test;
+use Recipe::Grammar;
+use Recipe;
+
+my @cases = (
+    (' ', Recipe),
+    ('{holis}(100 gr)', Recipe)
+);
+
+for @cases -> ($input, $expected) {
+    my $recipe = recipe-from($input);
+    is $recipe.WHAT, $expected, "recipe-value('$input')";
+}
+
+done-testing;
