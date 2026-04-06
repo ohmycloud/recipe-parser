@@ -1,0 +1,18 @@
+use lib '../lib';
+
+plan 2;
+
+use Test;
+use Recipe::Grammar;
+
+my @cases = (
+    ('t{1 minute}', '1 minute'),
+    ('t{2 hours}', '2 hours')
+);
+
+for @cases -> ($input, $expected) {
+    my $m = Recipe::Grammar.parse($input, rule => 'timer');
+    is ~$m<curly><valid-string>.trim, $expected, "timer('$input')";
+}
+
+done-testing;
