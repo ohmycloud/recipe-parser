@@ -1,0 +1,20 @@
+use lib '../lib';
+
+plan 4;
+
+use Test;
+use Recipe::Grammar;
+
+my @cases = (
+    ('&{pot}', 'pot'),
+    ('&{small jar}', 'small jar'),
+    ('&{stick}', 'stick'),
+    ('&{bricks}', 'bricks')
+);
+
+for @cases -> ($input, $expected) {
+    my $m = Recipe::Grammar.parse($input, rule => 'material');
+    is ~$m<curly><valid-string>.trim, $expected, "material('$input')";
+}
+
+done-testing;
