@@ -51,7 +51,7 @@ token unit {
 
 #  Ingredient amounts are surrounded by parenthesis
 token ingredient-amount {
-    '(' \h* <quantity>? \h* <unit>? \h* ')'
+    '(' \h* <quantity>+ \h* <unit>? \h* ')'
 }
 
 # Ingredients come in these formats:
@@ -108,7 +108,7 @@ token word {
 # >> lang: en
 # ```
 token metadata {
-    '>>' \h* $<key>=(<-[:\n]>+) ':' \h* $<value>=(\N*)
+    '>>' \h* $<key>=(<-[:\n]>+) ':' \h* $<value>=(\N*) \s*
 }
 
 # The backstory is separated by `---`, and it consumes till the end
@@ -122,15 +122,15 @@ token backstory {
 }
 
 token recipe-value {
-    | <metadata>
-    | <material>
-    | <timer>
-    | <ingredient>
-    | <recipe-ref>
-    | <backstory>
-    | <comment>
-    | <word>
-    | \s+
+    || <metadata>
+    || <material>
+    || <timer>
+    || <ingredient>
+    || <recipe-ref>
+    || <backstory>
+    || <comment>
+    || <word>
+    || \s+
 }
 
 token TOP {
