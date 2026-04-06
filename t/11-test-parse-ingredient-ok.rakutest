@@ -1,0 +1,22 @@
+use lib '../lib';
+
+plan 2;
+
+use Test;
+use Recipe::Grammar;
+
+my @cases = (
+    ('{sweet potato}(200gr)', ('sweet potato', '200', 'gr')),
+    ('{sweet potato}', ('sweet potato', Any, Any))
+);
+
+for @cases -> ($input, $expected) {
+    my $m = Recipe::Grammar.parse($input, rule => 'ingredient');
+    my $quantity = $m<ingredient-amount><quantity>;
+    $quantity = $quantity.defined ?? ~$quantity !! Any;
+    my $unit = $m<ingredient-amount><unit>;
+    $unit = $unit.defined ?? ~$unit !! Any;
+    is-deeply (~$m<curly><valid-string>.trim, $quantity, $unit), $expected, "ingredient('$input')";
+}
+
+done-testing;
