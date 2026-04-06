@@ -1,0 +1,28 @@
+use lib '../lib';
+
+plan 6;
+
+use Test;
+use Recipe::Grammar;
+
+my @cases = (
+    ("(200gr)", ("200", "gr")),
+    ("(100 gr)", ("100", "gr")),
+    ("(10 ml)", ("10", "ml")),
+    ("( 10 ml)", ("10", "ml")),
+    ("(1.5 cups)", ("1.5", "cups")),
+    ("(1/2)", ("1/2", Any))
+);
+
+for @cases -> ($input, $expected) {
+    my $m = Recipe::Grammar.parse($input, rule => 'ingredient-amount');
+
+    my $quantity = $m<quantity>;
+    my $unit = $m<unit>;
+    $quantity = $quantity.defined ?? ~$quantity !! Any;
+    $unit = $unit.defined ?? ~$unit !! Any;
+
+    is-deeply ($quantity, $unit), $expected, "ingredient-amount('$input')";
+}
+
+done-testing;
