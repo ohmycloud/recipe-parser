@@ -1,0 +1,21 @@
+use lib '../lib';
+
+plan 4;
+
+use Test;
+use Recipe::Grammar;
+use Recipe::Actions;
+use Recipe::Token;
+
+my @cases = (
+    ('boil {water}', Recipe),
+    ('with {garlic}(1)', Recipe)
+);
+
+for @cases -> ($input, $expected) {
+    my @tokens = Recipe::Grammar.parse($input, actions => Recipe::Actions.new).made;
+    ok @tokens.first(* ~~ Word),       'Word';
+    ok @tokens.first(* ~~ Ingredient), 'Ingredient';
+}
+
+done-testing;
