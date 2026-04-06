@@ -89,3 +89,31 @@ sub show-recipes(@paths) {
         say $instructions.trim;
     }
 }
+
+=begin pod
+
+=head1 Recp
+
+C<cecp.raku> - A cli to display recipes written in recipe-lang.
+
+=head1 SYNOPSIS
+
+  recp.raku show hummus.recp
+  recp.raku s buddha-bowl.recp
+
+=head1 DESCRIPTION
+
+This program provides basic recipe display.  The project was initially
+inspired by L<recipe-lang|https://github.com/reciperium/recipe-lang>,
+which is created by L<woile|https://github.com/woile>,
+it aims to be a general language to describe recipes of any kind (food, art, construction, etc.).
+
+For example:
+
+=item how to prepare a soup
+=item how to make a burrito
+=item how to make your own deodorant
+=item how to make your tooth paste
+=item how to build a wooden chair
+
+=end pod
